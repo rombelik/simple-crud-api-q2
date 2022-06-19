@@ -109,7 +109,7 @@ const deleteUser = async (id:string, response: ServerResponse) => {
                 response.writeHead(404, {'Content-Type': 'application/json'})
                 response.end(JSON.stringify({message: USER_NOT_FOUND}))
             } else {
-                await User.delete(id)
+                await User.destroy(id)
                 response.writeHead(204, {'Content-Type': 'application/json'})
                 response.end(JSON.stringify(user))
             }

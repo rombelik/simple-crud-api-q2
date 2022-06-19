@@ -10,8 +10,6 @@ const findAll:() => Promise<unknown> = () => {
 
 const findById:(id: string) => Promise<unknown> = (id) => {
     return new Promise((resolve, reject) => {
-        console.log('id ------------>', id)
-        console.log('users.find(user => user.id === id) ------------>', users.find(user => user.id === id))
         resolve(users.find(user => user.id === id));
         reject(new Error("User ID is wrong"))
     })
@@ -22,7 +20,6 @@ const create: (user: { name: string; age: number; hobbies: Array<string> }) => P
         const newUser:{id:string, name?: string, age?: number, hobbies?: Array<string>} = Object.assign({id: uuidv4()}, user)
         users.push({ ...newUser, id: uuidv4()})
         resolve(newUser)
-        // resolve(users.push({ ...newUser, id: uuidv4()}))
         reject(new Error("User ID is wrong"))
     })
 }
@@ -39,7 +36,7 @@ const update: (id:string, newData: { name: string; age: number; hobbies: Array<s
     })
 }
 
-const delete:(id: string) => Promise<unknown> = (id) => {
+const destroy:(id: string) => Promise<unknown> = (id) => {
     return new Promise((resolve, reject) => {
         const index = users.findIndex((user) => user.id === id)
         users.splice(index, 1)
@@ -48,4 +45,4 @@ const delete:(id: string) => Promise<unknown> = (id) => {
     })
 }
 
-export {findAll, findById, create, update, delete}
+export {findAll, findById, create, update, destroy}
