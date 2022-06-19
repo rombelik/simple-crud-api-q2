@@ -39,4 +39,13 @@ const update: (id:string, newData: { name: string; age: number; hobbies: Array<s
     })
 }
 
-export {findAll, findById, create, update}
+const delete:(id: string) => Promise<unknown> = (id) => {
+    return new Promise((resolve, reject) => {
+        const index = users.findIndex((user) => user.id === id)
+        users.splice(index, 1)
+        resolve({})
+        reject(new Error("User ID is wrong"))
+    })
+}
+
+export {findAll, findById, create, update, delete}

@@ -98,9 +98,31 @@ const updateUser = async (id: string, request: IncomingMessage, response: Server
     }
 }
 
+const deleteUser = async (id:string, response: ServerResponse) => {
+    try {
+        if (!isUUID(id)) {
+            response.writeHead(400, {'Content-Type': 'application/json'})
+            response.end(JSON.stringify({message: USER_ID_IS_NOT_VALID}))
+        } else {
+            const user = await User.findById(id);
+            if (!user) {
+                response.writeHead(404, {'Content-Type': 'application/json'})
+                response.end(JSON.stringify({message: USER_NOT_FOUND}))
+            } else {
+                await User.delete(id)
+                response.writeHead(204, {'Content-Type': 'application/json'})
+                response.end(JSON.stringify(user))
+            }
+        }
+    } catch(e) {
+        console.error(e)
+    }
+}
+
 export {
     getUsers,
     getUser,
     createUser,
-    updateUser
+    updateUser,
+    deleteUser
 }

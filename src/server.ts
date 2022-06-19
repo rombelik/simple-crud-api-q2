@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import {createServer, IncomingMessage, ServerResponse} from 'http';
-import {getUsers, getUser, createUser, updateUser} from "./controllers/userController";
+import {getUsers, getUser, createUser, updateUser, deleteUser} from "./controllers/userController";
 import {URL_NOT_FOUND} from "./constants/messages";
 
 const server = createServer((request: IncomingMessage, response: ServerResponse) => {
@@ -15,6 +15,9 @@ const server = createServer((request: IncomingMessage, response: ServerResponse)
         } else if(request.url !== undefined && request.url.match(/\/api\/users\/(\d+)/) && request.method === 'PUT') {
             const id = request.url.split('/')[3]
             updateUser(id, request, response)
+        } else if(request.url !== undefined && request.url.match(/\/api\/users\/(\d+)/) && request.method === 'DELETE') {
+            const id = request.url.split('/')[3]
+            deleteUser(id, response)
         } else {
             response.writeHead(404, {'Content-Type': 'application/json'})
             response.end(JSON.stringify({message: URL_NOT_FOUND}))
